@@ -3,11 +3,12 @@
    Provides offline caching of all local assets.
    ============================================================ */
 
-var CACHE_NAME = 'salinha-tia-bel-v1';
+var CACHE_NAME = 'salinha-tia-bel-v2';
 
 var LOCAL_ASSETS = [
   './',
   './index.html',
+  './salinha-tia-bel.html',
   './app.js',
   './manifest.webmanifest',
   './data/game-data.json',

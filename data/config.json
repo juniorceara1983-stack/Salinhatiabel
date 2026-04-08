@@ -1,0 +1,15 @@
+{
+  "GAMES_CONFIG": [
+    { "id": "cores",     "title": "Cores",       "short": "Cores",        "emoji": "🎨", "type": "colors",   "sizes": [4, 6, 8]   },
+    { "id": "numeros",   "title": "Números",     "short": "Números",      "emoji": "🔢", "type": "emoji",    "sizes": [4, 6, 8],  "key": "numeros"  },
+    { "id": "animais",   "title": "Animais",     "short": "Animais",      "emoji": "🦁", "type": "emoji",    "sizes": [4, 6, 8],  "key": "animais"  },
+    { "id": "frutas",    "title": "Frutas",      "short": "Frutas",       "emoji": "🍎", "type": "emoji",    "sizes": [4, 6, 8],  "key": "frutas"   },
+    { "id": "formas",    "title": "Formas",      "short": "Formas",       "emoji": "⭐", "type": "emoji",    "sizes": [4, 6, 7],  "key": "formas"   },
+    { "id": "letras",    "title": "Letras",      "short": "Letras",       "emoji": "🔤", "type": "letters",  "sizes": [4, 6, 8]   },
+    { "id": "objetos",   "title": "Objetos",     "short": "Objetos",      "emoji": "✏️", "type": "emoji",    "sizes": [4, 6, 8],  "key": "objetos"  },
+    { "id": "corpo",     "title": "Corpo",       "short": "Corpo Humano", "emoji": "👶", "type": "emoji",    "sizes": [4, 6, 8],  "key": "corpo"    },
+    { "id": "sequencia", "title": "Sequência",   "short": "Sequência",    "emoji": "📐", "type": "sequence", "sizes": [4, 4, 4]   },
+    { "id": "memoria",   "title": "Memória",     "short": "Memória",      "emoji": "🃏", "type": "memory",   "sizes": [8, 12, 16] }
+  ],
+  "QS_PER_LEVEL": [5, 7, 10]
+}

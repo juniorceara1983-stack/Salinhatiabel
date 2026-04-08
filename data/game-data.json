@@ -1,0 +1,69 @@
+{
+  "DATA": {
+    "cores": [
+      { "nome": "Vermelho", "cor": "#e74c3c", "text": "#fff" },
+      { "nome": "Azul",     "cor": "#3498db", "text": "#fff" },
+      { "nome": "Verde",    "cor": "#2ecc71", "text": "#fff" },
+      { "nome": "Amarelo",  "cor": "#f1c40f", "text": "#333" },
+      { "nome": "Laranja",  "cor": "#e67e22", "text": "#fff" },
+      { "nome": "Rosa",     "cor": "#fd79a8", "text": "#fff" },
+      { "nome": "Roxo",     "cor": "#9b59b6", "text": "#fff" },
+      { "nome": "Marrom",   "cor": "#8d5524", "text": "#fff" },
+      { "nome": "Cinza",    "cor": "#95a5a6", "text": "#fff" },
+      { "nome": "Preto",    "cor": "#2c3e50", "text": "#fff" }
+    ],
+    "numeros": [
+      { "nome": "1",  "emoji": "1️⃣" }, { "nome": "2",  "emoji": "2️⃣" },
+      { "nome": "3",  "emoji": "3️⃣" }, { "nome": "4",  "emoji": "4️⃣" },
+      { "nome": "5",  "emoji": "5️⃣" }, { "nome": "6",  "emoji": "6️⃣" },
+      { "nome": "7",  "emoji": "7️⃣" }, { "nome": "8",  "emoji": "8️⃣" },
+      { "nome": "9",  "emoji": "9️⃣" }, { "nome": "10", "emoji": "🔟"  }
+    ],
+    "animais": [
+      { "nome": "Cachorro",  "emoji": "🐶" }, { "nome": "Gato",      "emoji": "🐱" },
+      { "nome": "Coelho",    "emoji": "🐰" }, { "nome": "Pinguim",   "emoji": "🐧" },
+      { "nome": "Leão",      "emoji": "🦁" }, { "nome": "Elefante",  "emoji": "🐘" },
+      { "nome": "Macaco",    "emoji": "🐵" }, { "nome": "Pato",      "emoji": "🦆" },
+      { "nome": "Girafa",    "emoji": "🦒" }, { "nome": "Borboleta", "emoji": "🦋" },
+      { "nome": "Sapo",      "emoji": "🐸" }, { "nome": "Peixe",     "emoji": "🐠" }
+    ],
+    "frutas": [
+      { "nome": "Maçã",     "emoji": "🍎" }, { "nome": "Banana",   "emoji": "🍌" },
+      { "nome": "Uva",      "emoji": "🍇" }, { "nome": "Morango",  "emoji": "🍓" },
+      { "nome": "Melancia", "emoji": "🍉" }, { "nome": "Laranja",  "emoji": "🍊" },
+      { "nome": "Abacaxi",  "emoji": "🍍" }, { "nome": "Pêra",     "emoji": "🍐" },
+      { "nome": "Cereja",   "emoji": "🍒" }, { "nome": "Limão",    "emoji": "🍋" }
+    ],
+    "formas": [
+      { "nome": "Círculo",   "emoji": "⭕" }, { "nome": "Quadrado",  "emoji": "⬛" },
+      { "nome": "Triângulo", "emoji": "🔺" }, { "nome": "Estrela",   "emoji": "⭐" },
+      { "nome": "Coração",   "emoji": "❤️" }, { "nome": "Losango",   "emoji": "🔷" },
+      { "nome": "Lua",       "emoji": "🌙" }
+    ],
+    "letras": [
+      {"nome":"A","emoji":"A"},{"nome":"B","emoji":"B"},{"nome":"C","emoji":"C"},
+      {"nome":"D","emoji":"D"},{"nome":"E","emoji":"E"},{"nome":"F","emoji":"F"},
+      {"nome":"G","emoji":"G"},{"nome":"H","emoji":"H"},{"nome":"I","emoji":"I"},
+      {"nome":"J","emoji":"J"},{"nome":"K","emoji":"K"},{"nome":"L","emoji":"L"},
+      {"nome":"M","emoji":"M"},{"nome":"N","emoji":"N"},{"nome":"O","emoji":"O"},
+      {"nome":"P","emoji":"P"},{"nome":"Q","emoji":"Q"},{"nome":"R","emoji":"R"},
+      {"nome":"S","emoji":"S"},{"nome":"T","emoji":"T"},{"nome":"U","emoji":"U"},
+      {"nome":"V","emoji":"V"},{"nome":"W","emoji":"W"},{"nome":"X","emoji":"X"},
+      {"nome":"Y","emoji":"Y"},{"nome":"Z","emoji":"Z"}
+    ],
+    "objetos": [
+      { "nome": "Lápis",      "emoji": "✏️" }, { "nome": "Livro",      "emoji": "📚" },
+      { "nome": "Mochila",    "emoji": "🎒" }, { "nome": "Régua",      "emoji": "📏" },
+      { "nome": "Tesoura",    "emoji": "✂️" }, { "nome": "Caderno",    "emoji": "📓" },
+      { "nome": "Caneta",     "emoji": "🖊️" }, { "nome": "Computador", "emoji": "💻" },
+      { "nome": "Ônibus",     "emoji": "🚌" }
+    ],
+    "corpo": [
+      { "nome": "Mão",   "emoji": "🤚" }, { "nome": "Olho",  "emoji": "👁️" },
+      { "nome": "Nariz", "emoji": "👃" }, { "nome": "Boca",  "emoji": "👄" },
+      { "nome": "Orelha","emoji": "👂" }, { "nome": "Pé",    "emoji": "🦶" },
+      { "nome": "Braço", "emoji": "💪" }, { "nome": "Dedo",  "emoji": "☝️" }
+    ]
+  },
+  "MEM_POOL": ["🐶","🐱","🦁","🐸","🦋","🍎","🍌","🍓","⭐","❤️","🌈","🦒","🐘","🍉","🐧","🌸"]
+}

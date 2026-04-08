@@ -140,16 +140,39 @@ function stripEmojisAndSymbols(text) {
     .trim();
 }
 
+/**
+ * Pick the best available female Portuguese voice.
+ * Priority: pt-BR female name → any pt-BR → any pt.
+ */
+function pickFemaleVoice() {
+  var voices = _voices;
+  if (!voices || !voices.length) return null;
+  /* Common female voice name fragments across platforms */
+  var femaleHints = ['luciana', 'maria', 'francisca', 'ana', 'helena', 'google português', 'female', 'feminino'];
+  /* 1. pt-BR voice whose name suggests female */
+  var v = voices.find(function(v) {
+    if (!v.lang.startsWith('pt')) return false;
+    var n = v.name.toLowerCase();
+    return femaleHints.some(function(h) { return n.indexOf(h) !== -1; });
+  });
+  /* 2. Any pt-BR voice */
+  if (!v) v = voices.find(function(v) { return v.lang === 'pt-BR'; });
+  /* 3. Any Portuguese voice */
+  if (!v) v = voices.find(function(v) { return v.lang.startsWith('pt'); });
+  return v || null;
+}
+
 function speak(text, cb) {
   if (!window.speechSynthesis) { cb && cb(); return; }
   window.speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(text);
+  var clean = stripEmojisAndSymbols(text);
+  var u = new SpeechSynthesisUtterance(clean);
   u.lang   = 'pt-BR';
   u.rate   = 0.88;
-  u.pitch  = 1.25;
+  u.pitch  = 1.4;
   u.volume = 1;
-  var ptV = _voices.find(function(v) { return v.lang.startsWith('pt'); });
-  if (ptV) u.voice = ptV;
+  var v = pickFemaleVoice();
+  if (v) u.voice = v;
   if (cb) u.onend = cb;
   window.speechSynthesis.speak(u);
 }
@@ -371,13 +394,21 @@ function renderQuestion() {
     '</div>' +
     '<div class="options-grid' + extraCls + '">' + optBtns + '</div>';
 
-  setTimeout(function() { speak('Clique em ' + q.correct.nome); }, 350);
+  setTimeout(function() {
+    var phrase = g.type === 'colors'  ? 'Clique na cor certa!' :
+                 g.type === 'letters' ? 'Encontre a letra certa!' :
+                 'Clique na opção certa!';
+    speak(phrase);
+  }, 350);
 }
 
 function readPrompt() {
   sndClick();
-  var q = S.questions[S.qIdx];
-  speak('Clique em ' + (q.correct ? q.correct.nome : 'Qual número falta?'));
+  var g = S.game;
+  var phrase = g.type === 'colors'  ? 'Clique na cor certa!' :
+               g.type === 'letters' ? 'Encontre a letra certa!' :
+               'Clique na opção certa!';
+  speak(phrase);
 }
 
 function renderSeq(q, C) {
