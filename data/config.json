@@ -1,0 +1,15 @@
+{
+  "QS_PER_LEVEL": [5, 7, 10],
+  "GAMES_CONFIG": [
+    { "id": "cores",     "emoji": "🎨", "short": "Cores",      "title": "Cores e Pinturas",      "type": "colors",   "sizes": [3, 4, 6] },
+    { "id": "animais",   "emoji": "🐾", "short": "Animais",    "title": "Animais do Mundo",       "type": "emoji",    "key": "animais",   "sizes": [3, 4, 6] },
+    { "id": "frutas",    "emoji": "🍎", "short": "Frutas",     "title": "Frutas Deliciosas",      "type": "emoji",    "key": "frutas",    "sizes": [3, 4, 6] },
+    { "id": "letras",    "emoji": "🔤", "short": "Letras",     "title": "Aprendendo as Letras",   "type": "letters",  "sizes": [3, 4, 6] },
+    { "id": "numeros",   "emoji": "🔢", "short": "Números",    "title": "Conhecendo os Números",  "type": "emoji",    "key": "numeros",   "sizes": [3, 4, 6] },
+    { "id": "sequencia", "emoji": "➕", "short": "Sequência",  "title": "Sequência Numérica",     "type": "sequence", "sizes": [4, 4, 4] },
+    { "id": "memoria",   "emoji": "🃏", "short": "Memória",    "title": "Jogo da Memória",        "type": "memory",   "sizes": [8, 12, 16] },
+    { "id": "formas",    "emoji": "🔷", "short": "Formas",     "title": "Formas e Figuras",       "type": "emoji",    "key": "formas",    "sizes": [3, 4, 6] },
+    { "id": "veiculos",  "emoji": "🚗", "short": "Veículos",   "title": "Veículos e Transportes", "type": "emoji",    "key": "veiculos",  "sizes": [3, 4, 6] },
+    { "id": "alimentos", "emoji": "🍕", "short": "Alimentos",  "title": "Alimentos e Comidas",    "type": "emoji",    "key": "alimentos", "sizes": [3, 4, 6] }
+  ]
+}
