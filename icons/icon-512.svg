@@ -6,9 +6,10 @@
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="100" ry="100" fill="url(#bg)"/>
-  <!-- Star decoration -->
-  <text x="256" y="210" font-size="172" text-anchor="middle" dominant-baseline="middle">🌟</text>
+  <!-- Five-pointed star -->
+  <polygon points="256,60 289,175 410,175 313,245 346,360 256,290 166,360 199,245 102,175 223,175"
+           fill="#FFD700" stroke="#FF6B35" stroke-width="6"/>
   <!-- App name -->
-  <text x="256" y="390" font-family="Arial, sans-serif" font-size="48" font-weight="bold"
+  <text x="256" y="440" font-family="Arial, sans-serif" font-size="52" font-weight="bold"
         text-anchor="middle" fill="#FFD700">Tia Bel</text>
 </svg>
