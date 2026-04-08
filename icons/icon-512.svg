@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="100" fill="url(#bg)"/>
+  <circle cx="256" cy="210" r="120" fill="#FFD700"/>
+  <circle cx="256" cy="192" r="88" fill="#FFEAA7"/>
+  <!-- face: eyes -->
+  <circle cx="222" cy="172" r="13" fill="#333"/>
+  <circle cx="290" cy="172" r="13" fill="#333"/>
+  <!-- face: smile -->
+  <path d="M212 214 Q256 250 300 214" stroke="#333" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <!-- hair -->
+  <ellipse cx="256" cy="102" rx="88" ry="30" fill="#8B4513"/>
+  <!-- star -->
+  <text x="256" y="390" text-anchor="middle" font-size="110" font-family="serif">⭐</text>
+  <text x="256" y="476" text-anchor="middle" font-size="42" font-family="sans-serif" font-weight="bold" fill="white">Tia Bel</text>
+</svg>

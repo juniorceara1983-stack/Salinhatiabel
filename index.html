@@ -522,7 +522,7 @@ body {
 <div id="screen-menu" class="screen active">
   <div class="top-bar">
     <button class="btn-icon" id="btn-music-menu" onclick="toggleMusic()" title="Música">🎵</button>
-    <img id="img-tia-bel-menu" class="tia-bel-avatar" alt="Tia Bel" onclick="tiaBelGreet()">
+    <img id="img-tia-bel-menu" class="tia-bel-avatar" src="icons/icon-192.svg" alt="Tia Bel" onerror="this.src='icons/icon-192.svg'" onclick="tiaBelGreet()">
     <div class="stars-counter">⭐<br><span id="total-stars-display">0</span></div>
   </div>
   <div class="main-title">Salinha da<br>Tia Bel ✨</div>
@@ -576,7 +576,7 @@ body {
 <!-- ==================== MODAL ==================== -->
 <div class="modal-overlay hidden" id="modal">
   <div class="modal-box">
-    <img id="img-tia-bel-modal" class="modal-img" alt="Tia Bel">
+    <img id="img-tia-bel-modal" class="modal-img" src="icons/icon-192.svg" alt="Tia Bel" onerror="this.src='icons/icon-192.svg'">
     <span class="modal-emojis" id="modal-emojis"></span>
     <div class="modal-title" id="modal-title"></div>
     <div class="modal-msg"   id="modal-msg"></div>
