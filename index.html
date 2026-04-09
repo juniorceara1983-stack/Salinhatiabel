@@ -34,6 +34,31 @@ body {
 }
 .screen.active { display: flex; }
 
+/* NOVO: ESTILO TELA LOGIN (Integrado ao seu design) */
+.login-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 30px;
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.login-input {
+  padding: 15px;
+  border-radius: 15px;
+  border: 4px solid #FFD700;
+  font-size: 1.4rem;
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+  text-align: center;
+  margin: 20px 0;
+  outline: none;
+  color: #333;
+}
+
 /* ===== TOP BAR ===== */
 .top-bar {
   display: flex;
@@ -515,11 +540,21 @@ body {
 </head>
 <body>
 
-<!-- Confetti layer -->
 <div class="confetti-container" id="confetti"></div>
 
-<!-- ==================== MENU ==================== -->
-<div id="screen-menu" class="screen active">
+<div id="screen-login" class="screen active">
+  <div class="top-bar" style="justify-content: center;">
+    <img class="tia-bel-avatar" src="https://github.com/user-attachments/assets/e2856569-535f-4c35-98ce-72b9d7986b8e" alt="Tia Bel" style="width: 140px; height: 140px;">
+  </div>
+  <div class="main-title">Salinha da<br>Tia Bel ✨</div>
+  <div class="login-box">
+    <h2 style="color:#764ba2; font-family: 'Nunito', sans-serif;">Olá! Qual é o seu nome?</h2>
+    <input type="text" id="user-name" class="login-input" placeholder="Escreva aqui...">
+    <button class="btn-modal" onclick="saveUserAndStart()">Entrar ▶</button>
+  </div>
+</div>
+
+<div id="screen-menu" class="screen">
   <div class="top-bar">
     <button class="btn-icon" id="btn-music-menu" onclick="toggleMusic()" title="Música">🎵</button>
     <img id="img-tia-bel-menu" class="tia-bel-avatar" src="icons/icon-192.svg" alt="Tia Bel" onerror="this.onerror=null;this.src='icons/icon-192.svg'" onclick="tiaBelGreet()">
@@ -530,7 +565,6 @@ body {
   <div class="games-grid" id="games-grid"></div>
 </div>
 
-<!-- ==================== LEVEL SELECT ==================== -->
 <div id="screen-level" class="screen">
   <div class="top-bar">
     <button class="btn-back" onclick="goTo('menu')">◀ Voltar</button>
@@ -546,10 +580,9 @@ body {
   </div>
 </div>
 
-<!-- ==================== GAME ==================== -->
 <div id="screen-game" class="screen">
   <div class="game-topbar">
-    <button class="btn-back" onclick="goTo('menu')">◀ Menu</button>
+    <button class="btn-back" onclick="confirmExit()">◀ Menu</button>
     <div class="game-label" id="game-label"></div>
     <div class="score-badge" id="score-badge">⭐ 0</div>
     <button class="btn-icon" onclick="toggleMusic()">🎵</button>
@@ -560,7 +593,6 @@ body {
   <div id="game-container"></div>
 </div>
 
-<!-- ==================== RESULTS ==================== -->
 <div id="screen-results" class="screen">
   <div class="results-box">
     <span class="results-trophy" id="res-trophy"></span>
@@ -573,7 +605,6 @@ body {
   </div>
 </div>
 
-<!-- ==================== MODAL ==================== -->
 <div class="modal-overlay hidden" id="modal">
   <div class="modal-box">
     <img id="img-tia-bel-modal" class="modal-img" src="icons/icon-192.svg" alt="Tia Bel" onerror="this.onerror=null;this.src='icons/icon-192.svg'">
