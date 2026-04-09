@@ -85,14 +85,29 @@ function sndWin() {
   var t=0; m.forEach(function(f,i){ tone(f,d[i],'triangle',.28,t); t+=d[i]+.04; });
 }
 
-/* ──── Background melody: Twinkle Twinkle ──── */
+/* ──── Background melody: Ciranda Cirandinha (lively Brazilian children's song) ──── */
 var MELODY = [
-  [261.63,.30],[261.63,.30],[392.00,.30],[392.00,.30],[440.00,.30],[440.00,.30],[392.00,.55],[0,.18],
-  [349.23,.30],[349.23,.30],[329.63,.30],[329.63,.30],[293.66,.30],[293.66,.30],[261.63,.55],[0,.28],
-  [392.00,.30],[392.00,.30],[349.23,.30],[349.23,.30],[329.63,.30],[329.63,.30],[293.66,.55],[0,.18],
-  [392.00,.30],[392.00,.30],[349.23,.30],[349.23,.30],[329.63,.30],[329.63,.30],[293.66,.55],[0,.18],
-  [261.63,.30],[261.63,.30],[392.00,.30],[392.00,.30],[440.00,.30],[440.00,.30],[392.00,.55],[0,.18],
-  [349.23,.30],[349.23,.30],[329.63,.30],[329.63,.30],[293.66,.30],[293.66,.30],[261.63,.55],[0,.45],
+  /* Ciranda, cirandinha */
+  [329.63,.22],[293.66,.22],[261.63,.22],[293.66,.22],
+  [329.63,.22],[329.63,.22],[329.63,.38],[0,.10],
+  /* Vamos todos cirandar */
+  [293.66,.22],[293.66,.22],[293.66,.38],[0,.10],
+  [329.63,.22],[392.00,.22],[392.00,.38],[0,.12],
+  /* Uma volta, meia volta */
+  [329.63,.22],[293.66,.22],[261.63,.22],[293.66,.22],
+  [329.63,.22],[329.63,.22],[329.63,.22],[329.63,.22],
+  /* Volta e meia vamos dar */
+  [293.66,.22],[293.66,.22],[329.63,.22],[293.66,.22],
+  [261.63,.50],[0,.32],
+  /* repeat higher for energy */
+  [392.00,.22],[349.23,.22],[329.63,.22],[349.23,.22],
+  [392.00,.22],[392.00,.22],[392.00,.38],[0,.10],
+  [349.23,.22],[349.23,.22],[349.23,.38],[0,.10],
+  [392.00,.22],[440.00,.22],[440.00,.38],[0,.12],
+  [392.00,.22],[349.23,.22],[329.63,.22],[349.23,.22],
+  [392.00,.22],[392.00,.22],[392.00,.22],[392.00,.22],
+  [349.23,.22],[349.23,.22],[392.00,.22],[349.23,.22],
+  [329.63,.55],[0,.45],
 ];
 
 function melodyTick() {
@@ -154,6 +169,13 @@ function speak(text, cb) {
   window.speechSynthesis.speak(u);
 }
 
+/* ──── Speak an option name on hover/touch (helps non-readers) ──── */
+var _speakOptTid = null;
+function speakOption(text) {
+  clearTimeout(_speakOptTid);
+  _speakOptTid = setTimeout(function() { speak(stripEmojisAndSymbols(text)); }, 180);
+}
+
 /* ============================================================
    UTILITIES
    ============================================================ */
@@ -197,6 +219,8 @@ function setupMenu() {
       '<div class="card-title">'  + g.short  + '</div>' +
       '<div class="card-stars">'  + '⭐'.repeat(Math.min(earned, 9)) + '</div>';
     div.onclick = function() { selectGame(g); };
+    div.addEventListener('mouseenter', function() { speakOption(g.short); });
+    div.addEventListener('touchstart', function() { speakOption(g.short); }, { passive: true });
     grid.appendChild(div);
   });
   document.getElementById('total-stars-display').textContent = S.totalStars;
@@ -345,18 +369,20 @@ function renderQuestion() {
   /* Option buttons */
   var palette = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#fd79a8'];
   var optBtns = q.options.map(function(opt, i) {
+    var audioAttr = ' onmouseenter="speakOption(\'' + opt.nome.replace(/'/g,"\\'") + '\')"' +
+                    ' ontouchstart="speakOption(\'' + opt.nome.replace(/'/g,"\\'") + '\')"';
     if (g.type === 'colors') {
       return '<button class="option-btn" style="background:' + opt.cor + ';color:' + opt.text + ';border:3px solid rgba(0,0,0,.08)"' +
-             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')">' + opt.nome + '</button>';
+             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + audioAttr + '>' + opt.nome + '</button>';
     }
     if (g.type === 'letters') {
       var col = palette[i % palette.length];
       return '<button class="option-btn" style="background:' + col + ';color:#fff;font-size:2.2rem"' +
-             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')">' + opt.emoji + '</button>';
+             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + audioAttr + '>' + opt.emoji + '</button>';
     }
     var col2 = palette[i % palette.length];
     return '<button class="option-btn" style="background:' + col2 + ';color:#fff"' +
-           ' data-i="' + i + '" onclick="checkAnswer(' + i + ')">' +
+           ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + audioAttr + '>' +
            '<span style="font-size:2rem">' + opt.emoji + '</span>' +
            '<span>' + opt.nome + '</span>' +
            '</button>';
@@ -516,17 +542,25 @@ function flipMem(i) {
    MODAL
    ============================================================ */
 var SUCCESS_MSGS = [
-  'Muito bem! Você acertou! 🎉',
-  'Incrível! Você é muito inteligente! ⭐',
-  'Parabéns! Continue assim! 🌟',
-  'Ótimo! Você está indo muito bem! 🎊',
-  'Fantástico! Você é um campeão! 🏆',
+  'Muito bem! Você acertou!',
+  'Incrível! Você é muito inteligente!',
+  'Parabéns! Continue assim!',
+  'Ótimo! Você está indo muito bem!',
+  'Fantástico! Você é um campeão!',
+  'Uau! Que resposta incrível!',
+  'Você é demais! Continuando assim vai longe!',
+  'Isso mesmo! A Tia Bel ficou super orgulhosa!',
+  'Perfeito! Você acertou de primeira!',
+  'Sensacional! Você é uma criança muito esperta!',
 ];
 var FAIL_MSGS = [
-  'Quase lá! Vamos tentar mais uma vez? 💪',
-  'Não desista! Você consegue! 🌈',
-  'Continue tentando! Você vai conseguir! ⭐',
-  'Vamos lá! Na próxima você acerta! 💙',
+  'Quase lá! Vamos tentar mais uma vez?',
+  'Não desista! Você consegue!',
+  'Continue tentando! Você vai conseguir!',
+  'Vamos lá! Na próxima você acerta!',
+  'Boa tentativa! Tente de novo, você é capaz!',
+  'Não tem problema! Aprender é isso mesmo!',
+  'Quase! Respira fundo e tenta outra vez!',
 ];
 
 function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
