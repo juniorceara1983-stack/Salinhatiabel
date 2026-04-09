@@ -169,7 +169,26 @@ function speak(text, cb) {
   window.speechSynthesis.speak(u);
 }
 
-/* ──── Speak an option name on hover/touch (helps non-readers) ──── */
+/* ──── HTML-escape helper for safe attribute injection ──── */
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/* ──── Attach hover/touch/focus audio to buttons that carry data-nome ──── */
+function attachOptionAudio(container) {
+  container.querySelectorAll('[data-nome]').forEach(function(btn) {
+    var nome = btn.dataset.nome;
+    btn.addEventListener('mouseenter', function() { speakOption(nome); });
+    btn.addEventListener('touchstart', function() { speakOption(nome); }, { passive: true });
+    btn.addEventListener('focus',      function() { speakOption(nome); });
+  });
+}
+
+/* ──── Speak an option name on hover/touch/focus (helps non-readers) ──── */
 var _speakOptTid = null;
 function speakOption(text) {
   clearTimeout(_speakOptTid);
@@ -369,22 +388,21 @@ function renderQuestion() {
   /* Option buttons */
   var palette = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#fd79a8'];
   var optBtns = q.options.map(function(opt, i) {
-    var audioAttr = ' onmouseenter="speakOption(\'' + opt.nome.replace(/'/g,"\\'") + '\')"' +
-                    ' ontouchstart="speakOption(\'' + opt.nome.replace(/'/g,"\\'") + '\')"';
+    var nomeAttr = ' data-nome="' + escHtml(opt.nome) + '"';
     if (g.type === 'colors') {
       return '<button class="option-btn" style="background:' + opt.cor + ';color:' + opt.text + ';border:3px solid rgba(0,0,0,.08)"' +
-             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + audioAttr + '>' + opt.nome + '</button>';
+             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + nomeAttr + '>' + escHtml(opt.nome) + '</button>';
     }
     if (g.type === 'letters') {
       var col = palette[i % palette.length];
       return '<button class="option-btn" style="background:' + col + ';color:#fff;font-size:2.2rem"' +
-             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + audioAttr + '>' + opt.emoji + '</button>';
+             ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + nomeAttr + '>' + escHtml(opt.emoji) + '</button>';
     }
     var col2 = palette[i % palette.length];
     return '<button class="option-btn" style="background:' + col2 + ';color:#fff"' +
-           ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + audioAttr + '>' +
-           '<span style="font-size:2rem">' + opt.emoji + '</span>' +
-           '<span>' + opt.nome + '</span>' +
+           ' data-i="' + i + '" onclick="checkAnswer(' + i + ')"' + nomeAttr + '>' +
+           '<span style="font-size:2rem">' + escHtml(opt.emoji) + '</span>' +
+           '<span>' + escHtml(opt.nome) + '</span>' +
            '</button>';
   }).join('');
 
@@ -397,6 +415,7 @@ function renderQuestion() {
     '</div>' +
     '<div class="options-grid' + extraCls + '">' + optBtns + '</div>';
 
+  attachOptionAudio(C);
   setTimeout(function() { speak('Clique em ' + q.correct.nome); }, 350);
 }
 
