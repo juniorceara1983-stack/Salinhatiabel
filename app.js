@@ -1,5 +1,5 @@
 /* ============================================================
-   SALINHA DA TIA BEL — app.js
+   SALINHA DA TIA BEL — app.js (VERSÃO COM LOGIN)
    ============================================================ */
 
 const TIA_BEL = 'https://github.com/user-attachments/assets/e2856569-535f-4c35-98ce-72b9d7986b8e';
@@ -18,6 +18,8 @@ var S = {
   score: 0,
   answering: false,
   modalSuccess: false,
+  // NOVO: Nome do Aluno
+  playerName: localStorage.getItem('tib_player_name') || '',
   // Memory
   memCards: [],
   memFlipped: [],
@@ -32,6 +34,38 @@ var S = {
   totalStars: +(localStorage.getItem('tib_stars') || 0),
   gameStars:  JSON.parse(localStorage.getItem('tib_gstars') || '{}'),
 };
+
+/* ============================================================
+   LÓGICA DE LOGIN (NOVA)
+   ============================================================ */
+function saveUserAndStart() {
+  var input = document.getElementById('user-name');
+  var name = input.value.trim();
+  
+  if (name.length >= 2) {
+    sndClick();
+    S.playerName = name;
+    localStorage.setItem('tib_player_name', name);
+    
+    // Transição de tela
+    document.getElementById('screen-login').classList.remove('active');
+    goTo('menu');
+    
+    setTimeout(function() {
+      speak('Olá ' + S.playerName + '! Eu sou a Tia Bel. Vamos aprender e brincar juntos?');
+    }, 500);
+  } else {
+    sndWrong();
+    speak('Por favor, me diga qual é o seu nome!');
+    input.focus();
+  }
+}
+
+function confirmExit() {
+  if (confirm("Quer mesmo sair do jogo e voltar ao menu?")) {
+    goTo('menu');
+  }
+}
 
 /* ============================================================
    DATA LOADING
@@ -85,21 +119,16 @@ function sndWin() {
   var t=0; m.forEach(function(f,i){ tone(f,d[i],'triangle',.28,t); t+=d[i]+.04; });
 }
 
-/* ──── Background melody: Ciranda Cirandinha (lively Brazilian children's song) ──── */
+/* ──── Background melody: Ciranda Cirandinha ──── */
 var MELODY = [
-  /* Ciranda, cirandinha */
   [329.63,.22],[293.66,.22],[261.63,.22],[293.66,.22],
   [329.63,.22],[329.63,.22],[329.63,.38],[0,.10],
-  /* Vamos todos cirandar */
   [293.66,.22],[293.66,.22],[293.66,.38],[0,.10],
   [329.63,.22],[392.00,.22],[392.00,.38],[0,.12],
-  /* Uma volta, meia volta */
   [329.63,.22],[293.66,.22],[261.63,.22],[293.66,.22],
   [329.63,.22],[329.63,.22],[329.63,.22],[329.63,.22],
-  /* Volta e meia vamos dar */
   [293.66,.22],[293.66,.22],[329.63,.22],[293.66,.22],
   [261.63,.50],[0,.32],
-  /* repeat higher for energy */
   [392.00,.22],[349.23,.22],[329.63,.22],[349.23,.22],
   [392.00,.22],[392.00,.22],[392.00,.38],[0,.10],
   [349.23,.22],[349.23,.22],[349.23,.38],[0,.10],
@@ -144,10 +173,6 @@ if (window.speechSynthesis) {
   });
 }
 
-/**
- * Remove emojis and pictographic symbols from text before TTS,
- * so the voice reads only the written sentence.
- */
 function stripEmojisAndSymbols(text) {
   return (text || '')
     .replace(/[\p{Extended_Pictographic}]/gu, '')
@@ -169,7 +194,6 @@ function speak(text, cb) {
   window.speechSynthesis.speak(u);
 }
 
-/* ──── HTML-escape helper for safe attribute injection ──── */
 function escHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -178,7 +202,6 @@ function escHtml(s) {
     .replace(/>/g, '&gt;');
 }
 
-/* ──── Attach hover/touch/focus audio to buttons that carry data-nome ──── */
 function attachOptionAudio(container) {
   container.querySelectorAll('[data-nome]').forEach(function(btn) {
     var nome = btn.dataset.nome;
@@ -188,7 +211,6 @@ function attachOptionAudio(container) {
   });
 }
 
-/* ──── Speak an option name on hover/touch/focus (helps non-readers) ──── */
 var _speakOptTid = null;
 function speakOption(text) {
   clearTimeout(_speakOptTid);
@@ -251,16 +273,16 @@ function selectGame(g) {
   document.getElementById('lv-emoji').textContent = g.emoji;
   document.getElementById('lv-title').textContent = g.title;
   goTo('level');
-  speak('Vamos jogar ' + g.short + '! Escolha o nível.');
+  speak(S.playerName + ', vamos jogar ' + g.short + '! Escolha o nível.');
 }
 
 function tiaBelGreet() {
   sndClick();
   var msgs = [
-    'Olá! Eu sou a Tia Bel! Vamos aprender juntos?',
-    'Você consegue! Eu acredito em você!',
+    'Olá ' + S.playerName + '! Eu sou a Tia Bel! Vamos aprender juntos?',
+    'Você consegue, ' + S.playerName + '! Eu acredito em você!',
     'Aprender é divertido! Vamos lá!',
-    'Parabéns por estudar! Continue assim!',
+    'Parabéns por estudar, ' + S.playerName + '! Continue assim!',
     'Que saudade de você! Vamos jogar?',
   ];
   speak(msgs[Math.floor(Math.random() * msgs.length)]);
@@ -350,16 +372,13 @@ function startGame(lvl) {
 
   setTimeout(function() {
     speak(g.type === 'memory'
-      ? 'Encontre os pares iguais! Boa sorte!'
+      ? S.playerName + ', encontre os pares iguais! Boa sorte!'
       : g.type === 'sequence'
         ? 'Qual número falta na sequência?'
         : 'Clique na opção certa! Ouça com atenção!');
   }, 400);
 }
 
-/* ============================================================
-   PROGRESS BAR
-   ============================================================ */
 function setProgress(val) {
   document.getElementById('progress-bar').style.width = val + '%';
 }
@@ -374,7 +393,6 @@ function renderQuestion() {
 
   if (g.type === 'sequence') { renderSeq(q, C); return; }
 
-  /* Prompt card */
   var promptInner = '';
   if (g.type === 'colors') {
     promptInner = 'Clique na cor <strong>' + q.correct.nome + '</strong> 🔊';
@@ -385,7 +403,6 @@ function renderQuestion() {
     promptInner = verb + ' <strong>' + q.correct.nome + '</strong> 🔊';
   }
 
-  /* Option buttons */
   var palette = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#fd79a8'];
   var optBtns = q.options.map(function(opt, i) {
     var nomeAttr = ' data-nome="' + escHtml(opt.nome) + '"';
@@ -522,7 +539,6 @@ function flipMem(i) {
     S.memLocked = true;
     var a = S.memFlipped[0], b = S.memFlipped[1];
     if (S.memCards[a].emoji === S.memCards[b].emoji) {
-      /* Match! */
       S.memCards[a].matched = S.memCards[b].matched = true;
       document.getElementById('mc-' + a).classList.add('matched');
       document.getElementById('mc-' + b).classList.add('matched');
@@ -543,7 +559,6 @@ function flipMem(i) {
         showModal(true);
       }
     } else {
-      /* No match */
       sndWrong();
       setTimeout(function() {
         S.memCards[a].flipped = S.memCards[b].flipped = false;
@@ -560,30 +575,6 @@ function flipMem(i) {
 /* ============================================================
    MODAL
    ============================================================ */
-var SUCCESS_MSGS = [
-  'Muito bem! Você acertou!',
-  'Incrível! Você é muito inteligente!',
-  'Parabéns! Continue assim!',
-  'Ótimo! Você está indo muito bem!',
-  'Fantástico! Você é um campeão!',
-  'Uau! Que resposta incrível!',
-  'Você é demais! Continuando assim vai longe!',
-  'Isso mesmo! A Tia Bel ficou super orgulhosa!',
-  'Perfeito! Você acertou de primeira!',
-  'Sensacional! Você é uma criança muito esperta!',
-];
-var FAIL_MSGS = [
-  'Quase lá! Vamos tentar mais uma vez?',
-  'Não desista! Você consegue!',
-  'Continue tentando! Você vai conseguir!',
-  'Vamos lá! Na próxima você acerta!',
-  'Boa tentativa! Tente de novo, você é capaz!',
-  'Não tem problema! Aprender é isso mesmo!',
-  'Quase! Respira fundo e tenta outra vez!',
-];
-
-function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
 function showModal(ok) {
   var title = document.getElementById('modal-title');
   var msg   = document.getElementById('modal-msg');
@@ -595,7 +586,14 @@ function showModal(ok) {
   if (ok) {
     title.textContent = 'Parabéns! 🎉';
     title.className   = 'modal-title success';
-    var m = rnd(SUCCESS_MSGS);
+    var m = rnd([
+      'Muito bem ' + S.playerName + '! Você acertou!',
+      'Incrível! Você é muito inteligente!',
+      'Parabéns! Continue assim!',
+      'Ótimo! Você está indo muito bem!',
+      'Uau! Que resposta incrível!',
+      'Isso mesmo! A Tia Bel ficou super orgulhosa!',
+    ]);
     msg.textContent   = m;
     emj.textContent   = '🌟🎉⭐';
     btn.textContent   = 'Continuar ▶';
@@ -604,7 +602,13 @@ function showModal(ok) {
   } else {
     title.textContent = 'Vamos tentar! 💪';
     title.className   = 'modal-title failure';
-    var mf = rnd(FAIL_MSGS);
+    var mf = rnd([
+      'Quase lá ' + S.playerName + '! Vamos tentar mais uma vez?',
+      'Não desista! Você consegue!',
+      'Vamos lá! Na próxima você acerta!',
+      'Boa tentativa! Tente de novo, você é capaz!',
+      'Não tem problema! Aprender é isso mesmo!',
+    ]);
     msg.textContent   = mf;
     emj.textContent   = '💪🌈💙';
     btn.textContent   = S.game.type === 'memory' ? 'Continuar ▶' : 'Tentar de Novo ↩';
@@ -614,21 +618,18 @@ function showModal(ok) {
   document.getElementById('modal').classList.remove('hidden');
 }
 
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
 function closeModal() {
   document.getElementById('modal').classList.add('hidden');
   var g = S.game;
-
-  /* Memory: just return to game board */
   if (g.type === 'memory') return;
-
   S.answering = false;
-
   if (S.modalSuccess) {
     S.qIdx++;
     if (S.qIdx >= S.questions.length) showLevelComplete();
     else renderQuestion();
   } else {
-    /* Retry same question */
     renderQuestion();
   }
 }
@@ -646,7 +647,6 @@ function showLevelComplete() {
   if (pct >= 0.7) stars = 2;
   if (pct >= 0.9) stars = 3;
 
-  /* Persist stars */
   var prev   = S.gameStars[g.id] || 0;
   var earned = S.level * 3 + stars;
   if (earned > prev) {
@@ -672,9 +672,9 @@ function showLevelComplete() {
   if (great) {
     sndWin();
     spawnConfetti();
-    speak('Parabéns! Você completou o nível! Você ganhou ' + stars + ' estrela' + (stars > 1 ? 's' : '') + '!');
+    speak('Parabéns ' + S.playerName + '! Você completou o nível e ganhou ' + stars + ' estrela' + (stars > 1 ? 's' : '') + '!');
   } else {
-    speak('Boa tentativa! Continue praticando! Você consegue!');
+    speak('Boa tentativa, ' + S.playerName + '! Continue praticando!');
   }
 }
 
@@ -710,29 +710,35 @@ window.addEventListener('load', function() {
   _voices = (window.speechSynthesis && window.speechSynthesis.getVoices()) || [];
 
   loadGameData().then(function() {
-    /* Set Tia Bel image from the single TIA_BEL constant */
     ['img-tia-bel-menu', 'img-tia-bel-modal'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.src = TIA_BEL;
     });
 
-    /* Visual indicator if speech synthesis is unavailable */
     if (!window.speechSynthesis) {
       var note = document.createElement('div');
       note.style.cssText = 'position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;padding:6px 14px;border-radius:20px;font-size:.85rem;z-index:9999;pointer-events:none';
-      note.textContent = '🔇 Áudio de voz não disponível neste dispositivo';
+      note.textContent = '🔇 Áudio de voz não disponível';
       document.body.appendChild(note);
       setTimeout(function() { note.remove(); }, 5000);
     }
 
     setupMenu();
-    setTimeout(function() { speak('Bem-vindo à Salinha da Tia Bel! Escolha um jogo para começar!'); }, 900);
+
+    // Lógica para pular login se já existir nome
+    if (S.playerName) {
+      document.getElementById('screen-login').classList.remove('active');
+      document.getElementById('screen-menu').classList.add('active');
+      setTimeout(function() { speak('Bem-vindo de volta, ' + S.playerName + '! Vamos jogar?'); }, 900);
+    } else {
+      setTimeout(function() { speak('Olá! Eu sou a Tia Bel. Qual é o seu nome?'); }, 600);
+    }
+
   }).catch(function(err) {
-    console.error('Erro ao carregar dados do jogo:', err);
+    console.error('Erro ao carregar dados:', err);
   });
 });
 
-/* Resume audio context on first interaction */
 document.addEventListener('click', function() {
   if (S.audioCtx && S.audioCtx.state === 'suspended') S.audioCtx.resume();
 }, { once: true });
