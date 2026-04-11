@@ -147,6 +147,14 @@ body {
   white-space: nowrap;
 }
 .btn-back:hover { background: rgba(255,255,255,0.35); transform: scale(1.05); }
+@keyframes backBtnBounce {
+  0%   { transform: scale(1)    translateX(0); }
+  25%  { transform: scale(0.86) translateX(-7px); }
+  60%  { transform: scale(1.12) translateX(3px); }
+  80%  { transform: scale(0.97) translateX(-1px); }
+  100% { transform: scale(1)    translateX(0); }
+}
+.btn-back.animating { animation: backBtnBounce 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
 /* ===== STARS COUNTER ===== */
 .stars-counter {
@@ -544,7 +552,7 @@ body {
 
 <div id="screen-login" class="screen active">
   <div class="top-bar" style="justify-content: center;">
-    <img class="tia-bel-avatar" src="https://github.com/user-attachments/assets/e2856569-535f-4c35-98ce-72b9d7986b8e" alt="Tia Bel" style="width: 140px; height: 140px;">
+    <img id="img-tia-bel-login" class="tia-bel-avatar" src="icons/icon-192.svg" alt="Tia Bel" style="width: 140px; height: 140px;">
   </div>
   <div class="main-title">Salinha da<br>Tia Bel ✨</div>
   <div class="login-box">
@@ -559,6 +567,7 @@ body {
     <button class="btn-icon" id="btn-music-menu" onclick="toggleMusic()" title="Música">🎵</button>
     <img id="img-tia-bel-menu" class="tia-bel-avatar" src="icons/icon-192.svg" alt="Tia Bel" onerror="this.onerror=null;this.src='icons/icon-192.svg'" onclick="tiaBelGreet()">
     <div class="stars-counter">⭐<br><span id="total-stars-display">0</span></div>
+    <button class="btn-icon" onclick="changeName()" title="Trocar nome" style="font-size:1.2rem">🚪</button>
   </div>
   <div class="main-title">Salinha da<br>Tia Bel ✨</div>
   <div class="subtitle">🌈 Aprender é uma aventura! 🌈</div>
