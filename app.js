@@ -62,9 +62,19 @@ function saveUserAndStart() {
 }
 
 function confirmExit() {
-  if (confirm("Quer mesmo sair do jogo e voltar ao menu?")) {
-    goTo('menu');
-  }
+  sndClick();
+  speak('Quer voltar ao menu?');
+  document.getElementById('modal-exit').classList.remove('hidden');
+}
+
+function doExitGame() {
+  document.getElementById('modal-exit').classList.add('hidden');
+  goTo('menu');
+}
+
+function closeExitModal() {
+  sndClick();
+  document.getElementById('modal-exit').classList.add('hidden');
 }
 
 function changeName() {
@@ -397,14 +407,6 @@ function startGame(lvl) {
 
   if (g.type === 'memory') renderMemory();
   else renderQuestion();
-
-  setTimeout(function() {
-    speak(g.type === 'memory'
-      ? S.playerName + ', encontre os pares iguais! Boa sorte!'
-      : g.type === 'sequence'
-        ? 'Qual número falta na sequência?'
-        : 'Clique na opção certa! Ouça com atenção!');
-  }, 400);
 }
 
 function setProgress(val) {
@@ -511,6 +513,8 @@ function renderMemory() {
                '</button>';
       }).join('') +
     '</div>';
+
+  setTimeout(function() { speak(S.playerName + ', encontre os pares iguais! Boa sorte!'); }, 350);
 }
 
 /* ============================================================

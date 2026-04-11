@@ -624,6 +624,16 @@ body {
   </div>
 </div>
 
+<div class="modal-overlay hidden" id="modal-exit">
+  <div class="modal-box">
+    <span class="modal-emojis">🏠🌈</span>
+    <div class="modal-title" style="color:#764ba2">Voltar ao Menu?</div>
+    <div class="modal-msg">Quer mesmo sair do jogo agora? 😊</div>
+    <button class="btn-modal" onclick="doExitGame()">🏠 Sim, voltar!</button>
+    <button class="btn-modal secondary" onclick="closeExitModal()">▶ Continuar jogando</button>
+  </div>
+</div>
+
 <script src="app.js" defer></script>
 <script>
 if ('serviceWorker' in navigator) {
