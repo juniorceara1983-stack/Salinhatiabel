@@ -375,8 +375,6 @@ function genMemory(n) {
    ============================================================ */
 function startGame(lvl) {
   sndClick();
-  var levelNames = ['Fácil', 'Médio', 'Difícil'];
-  speak(levelNames[lvl]);
   S.level     = lvl;
   S.qIdx      = 0;
   S.score     = 0;
@@ -409,14 +407,6 @@ function startGame(lvl) {
 
   if (g.type === 'memory') renderMemory();
   else renderQuestion();
-
-  setTimeout(function() {
-    speak(g.type === 'memory'
-      ? S.playerName + ', encontre os pares iguais! Boa sorte!'
-      : g.type === 'sequence'
-        ? 'Qual número falta na sequência?'
-        : 'Clique na opção certa! Ouça com atenção!');
-  }, 900);
 }
 
 function setProgress(val) {
@@ -523,6 +513,8 @@ function renderMemory() {
                '</button>';
       }).join('') +
     '</div>';
+
+  setTimeout(function() { speak(S.playerName + ', encontre os pares iguais! Boa sorte!'); }, 350);
 }
 
 /* ============================================================
