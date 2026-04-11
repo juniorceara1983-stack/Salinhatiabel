@@ -67,6 +67,34 @@ function confirmExit() {
   }
 }
 
+function changeName() {
+  sndClick();
+  if (confirm('Trocar de jogador? O nome atual será removido.')) {
+    S.playerName = '';
+    localStorage.removeItem('tib_player_name');
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screen-login').classList.add('active');
+    var inp = document.getElementById('user-name');
+    if (inp) inp.value = '';
+    window.scrollTo(0, 0);
+    setTimeout(function() { speak('Olá! Eu sou a Tia Bel. Qual é o seu nome?'); }, 400);
+  }
+}
+
+/* Trigger bounce animation on all .btn-back clicks */
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.btn-back');
+  if (!btn) return;
+  btn.classList.remove('animating');
+  // Force reflow so the animation restarts if clicked quickly
+  void btn.offsetWidth;
+  btn.classList.add('animating');
+  btn.addEventListener('animationend', function h() {
+    btn.classList.remove('animating');
+    btn.removeEventListener('animationend', h);
+  });
+});
+
 /* ============================================================
    DATA LOADING
    ============================================================ */
@@ -587,12 +615,12 @@ function showModal(ok) {
     title.textContent = 'Parabéns! 🎉';
     title.className   = 'modal-title success';
     var m = rnd([
-      'Muito bem ' + S.playerName + '! Você acertou!',
-      'Incrível! Você é muito inteligente!',
-      'Parabéns! Continue assim!',
-      'Ótimo! Você está indo muito bem!',
-      'Uau! Que resposta incrível!',
-      'Isso mesmo! A Tia Bel ficou super orgulhosa!',
+      'Muito bem, ' + S.playerName + '! Você acertou!',
+      'Incrível, ' + S.playerName + '! Você é muito inteligente!',
+      'Parabéns, ' + S.playerName + '! Continue assim!',
+      'Ótimo, ' + S.playerName + '! Você está indo muito bem!',
+      'Uau, ' + S.playerName + '! Que resposta incrível!',
+      'Isso mesmo, ' + S.playerName + '! A Tia Bel ficou super orgulhosa de você!',
     ]);
     msg.textContent   = m;
     emj.textContent   = '🌟🎉⭐';
@@ -603,11 +631,11 @@ function showModal(ok) {
     title.textContent = 'Vamos tentar! 💪';
     title.className   = 'modal-title failure';
     var mf = rnd([
-      'Quase lá ' + S.playerName + '! Vamos tentar mais uma vez?',
-      'Não desista! Você consegue!',
-      'Vamos lá! Na próxima você acerta!',
-      'Boa tentativa! Tente de novo, você é capaz!',
-      'Não tem problema! Aprender é isso mesmo!',
+      'Quase lá, ' + S.playerName + '! Vamos tentar mais uma vez?',
+      'Não desista, ' + S.playerName + '! Você consegue!',
+      'Vamos lá, ' + S.playerName + '! Na próxima você acerta!',
+      'Boa tentativa, ' + S.playerName + '! Tente de novo, você é capaz!',
+      'Não tem problema, ' + S.playerName + '! Aprender é isso mesmo!',
     ]);
     msg.textContent   = mf;
     emj.textContent   = '💪🌈💙';
@@ -710,7 +738,7 @@ window.addEventListener('load', function() {
   _voices = (window.speechSynthesis && window.speechSynthesis.getVoices()) || [];
 
   loadGameData().then(function() {
-    ['img-tia-bel-menu', 'img-tia-bel-modal'].forEach(function(id) {
+    ['img-tia-bel-login', 'img-tia-bel-menu', 'img-tia-bel-modal'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.src = TIA_BEL;
     });
