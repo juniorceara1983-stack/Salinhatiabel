@@ -62,9 +62,19 @@ function saveUserAndStart() {
 }
 
 function confirmExit() {
-  if (confirm("Quer mesmo sair do jogo e voltar ao menu?")) {
-    goTo('menu');
-  }
+  sndClick();
+  speak('Quer voltar ao menu?');
+  document.getElementById('modal-exit').classList.remove('hidden');
+}
+
+function doExitGame() {
+  document.getElementById('modal-exit').classList.add('hidden');
+  goTo('menu');
+}
+
+function closeExitModal() {
+  sndClick();
+  document.getElementById('modal-exit').classList.add('hidden');
 }
 
 function changeName() {
@@ -365,6 +375,8 @@ function genMemory(n) {
    ============================================================ */
 function startGame(lvl) {
   sndClick();
+  var levelNames = ['Fácil', 'Médio', 'Difícil'];
+  speak(levelNames[lvl]);
   S.level     = lvl;
   S.qIdx      = 0;
   S.score     = 0;
@@ -404,7 +416,7 @@ function startGame(lvl) {
       : g.type === 'sequence'
         ? 'Qual número falta na sequência?'
         : 'Clique na opção certa! Ouça com atenção!');
-  }, 400);
+  }, 900);
 }
 
 function setProgress(val) {
