@@ -7,6 +7,9 @@ const TIA_BEL = 'https://github.com/user-attachments/assets/e2856569-535f-4c35-9
 /* These are populated from JSON at startup */
 var DATA, MEM_POOL, GAMES_CONFIG, QS_PER_LEVEL;
 
+/* VLibras widget instance */
+var vlibrasWidget = null;
+
 /* ============================================================
    STATE
    ============================================================ */
@@ -51,8 +54,10 @@ function saveUserAndStart() {
     document.getElementById('screen-login').classList.remove('active');
     goTo('menu');
     
+    var msgBemVindo = 'Olá ' + S.playerName + '! Eu sou a Tia Bel. Vamos aprender e brincar juntos?';
     setTimeout(function() {
-      speak('Olá ' + S.playerName + '! Eu sou a Tia Bel. Vamos aprender e brincar juntos?');
+      speak(msgBemVindo);
+      traduzirEmLibras('Bem-vindo ' + S.playerName);
     }, 500);
   } else {
     sndWrong();
@@ -230,6 +235,30 @@ function speak(text, cb) {
   if (ptV) u.voice = ptV;
   if (cb) u.onend = cb;
   window.speechSynthesis.speak(u);
+}
+
+/* ============================================================
+   VLIBRAS — Língua Brasileira de Sinais
+   ============================================================ */
+function initVLibras() {
+  if (window.VLibras) {
+    try {
+      vlibrasWidget = new window.VLibras.Widget('https://vlibras.gov.br/app');
+    } catch (e) {
+      console.warn('VLibras: erro ao inicializar', e);
+    }
+  }
+}
+
+function traduzirEmLibras(texto) {
+  if (!vlibrasWidget) return;
+  try {
+    if (typeof vlibrasWidget.translate === 'function') {
+      vlibrasWidget.translate(texto);
+    }
+  } catch (e) {
+    console.warn('VLibras: erro ao traduzir', e);
+  }
 }
 
 function escHtml(s) {
@@ -741,6 +770,14 @@ function spawnConfetti() {
 window.addEventListener('load', function() {
   _voices = (window.speechSynthesis && window.speechSynthesis.getVoices()) || [];
 
+  // Inicializa VLibras após o script ter sido carregado
+  if (window.VLibras) {
+    initVLibras();
+  } else {
+    // Script pode ainda estar carregando; tenta novamente em breve
+    setTimeout(initVLibras, 1500);
+  }
+
   loadGameData().then(function() {
     ['img-tia-bel-login', 'img-tia-bel-menu', 'img-tia-bel-modal'].forEach(function(id) {
       var el = document.getElementById(id);
@@ -761,7 +798,11 @@ window.addEventListener('load', function() {
     if (S.playerName) {
       document.getElementById('screen-login').classList.remove('active');
       document.getElementById('screen-menu').classList.add('active');
-      setTimeout(function() { speak('Bem-vindo de volta, ' + S.playerName + '! Vamos jogar?'); }, 900);
+      var msgVolta = 'Bem-vindo de volta, ' + S.playerName + '! Vamos jogar?';
+      setTimeout(function() {
+        speak(msgVolta);
+        traduzirEmLibras(msgVolta);
+      }, 900);
     } else {
       setTimeout(function() { speak('Olá! Eu sou a Tia Bel. Qual é o seu nome?'); }, 600);
     }
