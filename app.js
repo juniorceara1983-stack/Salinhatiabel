@@ -2,7 +2,7 @@
    SALINHA DA TIA BEL — app.js (VERSÃO COM LOGIN)
    ============================================================ */
 
-const TIA_BEL = './icons/icon-192.svg';
+const TIA_BEL = './1775603881127.png';
 
 /* These are populated from JSON at startup */
 var DATA, MEM_POOL, GAMES_CONFIG, QS_PER_LEVEL;
