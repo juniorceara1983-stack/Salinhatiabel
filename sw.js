@@ -3,7 +3,7 @@
    Provides offline caching of all local assets.
    ============================================================ */
 
-var CACHE_NAME = 'salinha-tia-bel-v2';
+var CACHE_NAME = 'salinha-tia-bel-v3';
 
 var LOCAL_ASSETS = [
   './',
